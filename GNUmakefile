@@ -1,5 +1,7 @@
 SHELL = bash
 
+GOPATH := $(shell go env GOPATH | cut -d: -f1)
+
 default: help
 
 HELP_FORMAT="    \033[36m%-25s\033[0m %s\n"
@@ -20,18 +22,18 @@ changelogfmt: ## Format changelog GitHub links
 .PHONY: check
 check: ## Lint the source code
 	@echo "==> Linting source code ..."
-	@$(CURDIR)/build/bin/golangci-lint run
+	@$(shell go env GOPATH)/bin/golangci-lint run
 	# hclogvet is busted; turn off for now
 	# @echo "==> vetting hc-log statements"
-	# @$(CURDIR)/build/bin/hclogvet $(CURDIR)
+	# @$(shell go env GOPATH)/bin/hclogvet $(CURDIR)
 
 .PHONY: deps
 deps: ## Install build dependencies
 	@echo "==> Installing build dependencies ..."
-	GOBIN=$(CURDIR)/build/bin go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.45.2
-	GOBIN=$(CURDIR)/build/bin go install github.com/client9/misspell/cmd/misspell@v0.3.4
-	GOBIN=$(CURDIR)/build/bin go install github.com/hashicorp/go-hclog/hclogvet@latest
-	GOBIN=$(CURDIR)/build/bin go install gotest.tools/gotestsum@v1.8.0
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.45.2
+	go install github.com/client9/misspell/cmd/misspell@v0.3.4
+	go install github.com/hashicorp/go-hclog/hclogvet@latest
+	go install gotest.tools/gotestsum@v1.8.0
 
 .PHONY: clean
 clean: ## Cleanup previous build
