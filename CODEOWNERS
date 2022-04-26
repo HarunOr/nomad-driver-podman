@@ -1,4 +1,5 @@
 * @hashicorp/nomad-eng
+* @towe75
 
 # release configuration
 /.release/                              @hashicorp/release-engineering
