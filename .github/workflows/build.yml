@@ -51,10 +51,26 @@ jobs:
           name: metadata.json
           path: ${{ steps.generate-metadata-file.outputs.filepath }}
 
+  build-checks:
+    needs:
+      - get-go-version
+      - get-product-version
+    runs-on: ubuntu-20.04
+    name: Checks
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ needs.get-go-version.outputs.go-version }}
+      - run: |
+          make check
+
   build-linux:
     needs:
       - get-go-version
       - get-product-version
+      - build-checks
     runs-on: ubuntu-20.04
     strategy:
       matrix:

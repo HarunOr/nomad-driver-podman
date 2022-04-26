@@ -20,7 +20,7 @@ changelogfmt: ## Format changelog GitHub links
 	@sed -E 's|([^\[])\[GH-([0-9]+)\]|\1[[GH-\2](https://github.com/hashicorp/nomad-driver-podman/issues/\2)]|g' CHANGELOG.md > changelog.tmp && mv changelog.tmp CHANGELOG.md
 
 .PHONY: check
-check: ## Lint the source code
+check: deps ## Lint the source code
 	@echo "==> Linting source code ..."
 	@$(GOPATH)/bin/golangci-lint run
 
@@ -36,7 +36,7 @@ clean: ## Cleanup previous build
 	rm -f ./build/nomad-driver-podman
 
 .PHONY: build
-build: clean deps check build/nomad-driver-podman ## Build the nomad-driver-podman plugin
+build: clean build/nomad-driver-podman ## Build the nomad-driver-podman plugin
 
 build/nomad-driver-podman:
 	@echo "==> Building driver plugin ..."
