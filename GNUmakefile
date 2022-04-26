@@ -22,17 +22,12 @@ changelogfmt: ## Format changelog GitHub links
 .PHONY: check
 check: ## Lint the source code
 	@echo "==> Linting source code ..."
-	@$(shell go env GOPATH)/bin/golangci-lint run
-	# hclogvet is busted; turn off for now
-	# @echo "==> vetting hc-log statements"
-	# @$(shell go env GOPATH)/bin/hclogvet $(CURDIR)
+	@$(GOPATH)/bin/golangci-lint run
 
 .PHONY: deps
 deps: ## Install build dependencies
 	@echo "==> Installing build dependencies ..."
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.45.2
-	go install github.com/client9/misspell/cmd/misspell@v0.3.4
-	go install github.com/hashicorp/go-hclog/hclogvet@latest
 	go install gotest.tools/gotestsum@v1.8.0
 
 .PHONY: clean
